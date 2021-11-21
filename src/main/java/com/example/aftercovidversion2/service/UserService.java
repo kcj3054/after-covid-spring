@@ -43,7 +43,8 @@ public class UserService {
     }
 
     public Optional<User> findOne(String username) {
-        return userRepository.findByUsername(username)
+        return Optional.ofNullable(userRepository.findByUsername(username)
                 .orElseThrow(() -> new AfterCovidException("사용자 정보 없음")));
+
     }
 }

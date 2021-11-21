@@ -14,4 +14,8 @@ public class DiaryService {
     private final DiaryRepository diaryRepository;
 
 
+    /***
+     * 다이어리에서 필요한 서비스로직 구현 ..
+     */
+
 }
