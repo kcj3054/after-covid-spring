@@ -5,8 +5,12 @@ import com.example.aftercovidversion2.dto.CreateUserRequest;
 import com.example.aftercovidversion2.dto.GetUserResponse;
 import com.example.aftercovidversion2.exception.AfterCovidException;
 import com.example.aftercovidversion2.repository.UserRepository;
+import com.example.aftercovidversion2.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -14,37 +18,26 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserRepository userRepository;
-
+    private final UserService userService;
 
     @PostMapping
     public void createUser(@RequestBody CreateUserRequest request) {
-
-        userRepository.findByUsername(request.getUsername())
-                .ifPresent(user -> {
-                    throw new AfterCovidException("이미있는 이름입니다");
-                });
-
-        userRepository.save(
-                User.builder()
-                        .username(request.getUsername())
-                        .password(request.getPassword())
-                        .build()
-        );
+        userService.createUserService(request);
     }
-
 
     @GetMapping("/{userId}")
     public GetUserResponse getUserByUserId(@PathVariable Long userId) {
-        return userRepository.findById(userId)
-                .map(user ->
-                        GetUserResponse
-                                .builder()
-                                .id(user.getId())
-                                .username(user.getUsername())
-                                .password(user.getPassword())
-                                .build()
-                )
-                .orElseThrow(() -> new AfterCovidException("유저 정보 없음"));
+        return userService.getUserByUserId(userId);
+    }
+
+    @GetMapping("/users")
+    public List<User> getUsers() {
+        return userService.findAll();
+    }
+
+    @GetMapping("/users/{username}")
+    public Optional<User>  findOne(@PathVariable String username) {
+        return userService.findOne(username);
     }
 
 }

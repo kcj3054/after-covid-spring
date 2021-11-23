@@ -3,7 +3,6 @@ package com.example.aftercovidversion2.controller;
 
 import com.example.aftercovidversion2.domain.Diary;
 import com.example.aftercovidversion2.repository.DiaryRepository;
-import com.example.aftercovidversion2.repository.DirectorRepository;
 import com.example.aftercovidversion2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +25,6 @@ public class UndefinedController {
 
     @PostMapping("/save-diary")
     public void saveDiary(String title, String content) {
-
-        // db에 적재
         diaryRepository.save(
                 Diary.builder()
                         .title(title)
@@ -41,9 +38,9 @@ public class UndefinedController {
         //jwt 토큰 관련..
     }
 
-
     @GetMapping("/sign-in")
     public  String signIn() {
         //아이디 비밀번호가 낭라오면, 로그인 처리  아이디 찾지못하면 일치않는다..
     }
+
 }
