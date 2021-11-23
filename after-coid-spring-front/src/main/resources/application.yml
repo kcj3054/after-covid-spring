@@ -1,0 +1,6 @@
+
+server:
+  port: 8090
+
+service:
+  after-coivd-api.host: "http://localhost:8080"
