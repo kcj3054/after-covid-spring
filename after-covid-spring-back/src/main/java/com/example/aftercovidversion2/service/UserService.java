@@ -6,6 +6,7 @@ import com.example.aftercovidversion2.dto.GetUserResponse;
 import com.example.aftercovidversion2.exception.AfterCovidException;
 import com.example.aftercovidversion2.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class UserService {
 
     private  final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Transactional //변경
@@ -27,10 +29,13 @@ public class UserService {
                     throw new AfterCovidException("이미있는 이름입니다");
                 });
 
+        //패스워드 인코딩 ,
+        String password = passwordEncoder.encode(request.getPassword());  // encode하면 복호화된 password가 나오게된다
+
         userRepository.save(
                 User.builder()
                         .username(request.getUsername())
-                        .password(request.getPassword())
+                        .password(password)
                         .build()
         );
     }
