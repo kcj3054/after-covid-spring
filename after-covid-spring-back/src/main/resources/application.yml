@@ -7,4 +7,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+
+  messages:
+    basename: messages
 #spring.jpa.show-sql: true
